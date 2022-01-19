@@ -35,7 +35,7 @@ export class userEntity extends BaseEntity{
     password:string;
 
     @Column({default:'student'})
-    role:string;;
+    role:string;
 
     @BeforeInsert()
     emailToLowerCase(){

@@ -6,6 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './services/auth/auth.service';
+import { Level1Module } from './level1/level1.module';
+import { Level2Module } from './level2/level2.module';
+import { TermsModule } from './terms/terms.module';
+import { CombinationsModule } from './combinations/combinations.module';
+import { SubjectsModule } from './subjects/subjects.module';
+import { TeachersModule } from './teachers/teachers.module';
 
 
 @Module({
@@ -18,11 +24,23 @@ import { AuthService } from './services/auth/auth.service';
       password:process.env.POSTGRES_PASSWORD,
       database:process.env.POSTGRES_DATABASE,
       autoLoadEntities:true,
-      synchronize:true
+      synchronize:true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
     }),
     UserModule,
-    AuthModule],
+    AuthModule,
+    Level1Module,
+    Level2Module,
+    TermsModule,
+    CombinationsModule,
+    SubjectsModule,
+    TeachersModule,
+  ],
   controllers: [AppController],
-  providers: [AppService, AuthService],
+  providers: [
+    AppService,
+    AuthService, 
+
+   ],
 })
 export class AppModule {}

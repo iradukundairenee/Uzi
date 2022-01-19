@@ -1,4 +1,4 @@
-import { Controller,Post,Body,Get, HttpCode, BadRequestException, Req, UnauthorizedException, Catch } from '@nestjs/common';
+import { Controller,Post,Body,Get, HttpCode, BadRequestException, Req, UnauthorizedException,  } from '@nestjs/common';
 import {Observable} from 'rxjs';
 import {UserService} from '../services/user.service';
 import {userInterface} from '../user/modles/user.interface';
@@ -6,8 +6,7 @@ import{createUserDto } from '../user/modles/dto/create.dto';
 import { Res } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Response,Request, response } from 'express';
-import { userInfo } from 'os';
+import { Response,Request} from 'express';
 
 
 
@@ -20,8 +19,6 @@ export class UserController {
     create(@Body() createUserDto:createUserDto):Observable<string>{
         return this.UserService.createUser(createUserDto);
     }
-
-
    @Post('login')
    @HttpCode(200)
    async login(
@@ -29,7 +26,7 @@ export class UserController {
        @Body('password') password:string,
        @Res({passthrough:true}) response:Response
    ){
-
+       
     const user=await this.UserService.findOne({email});
     if(!user){
         throw new BadRequestException('invalid credentials');
@@ -38,7 +35,6 @@ export class UserController {
     if(!await bcrypt.compare(password,user.password)){
         throw new BadRequestException('invalid credentials');
     }
-
 
     const jwt =this.jwtService.sign({id:user.id})
 
@@ -50,35 +46,50 @@ export class UserController {
     }
 }
 
+
+@Get('student')
+async findOneStudent(@Req() request:Request){
+try{const cookie=request.cookies['jwt'];
+const data=await this.jwtService.verify(cookie);
+            if(!data){
+                throw new UnauthorizedException();
+            }
+     const user=await this.UserService.findOne({id:data['id']});
+
+     const{password, ...result}=user;
+        
+            return result
+        }
+        catch(e){
+            throw new UnauthorizedException();
+        }
+    }
+
+    @Get('students')
+async findAllStudents(@Req() request:Request){
+try{const cookie=request.cookies['jwt'];
+const data=await this.jwtService.verify(cookie);
+            if(!data){
+                throw new UnauthorizedException();
+            }
+     const user=await this.UserService.findAllUsers();
+
+            return user
+        }
+        catch(e){
+            throw new UnauthorizedException();
+        }
+    }
+
+
+
 @Post('logout')
 async logout(@Res({passthrough:true}) response:Response){
     response.clearCookie('jwt');
     return {
         message:'logout success'
     }
-
 }
-    @Get('students')
-    async findAllStudents(@Req() request:Request){
-        try{
 
-            const cookie=request.cookies['jwt'];
-            const data=await this.jwtService.verify(cookie);
-            if(!data){
-                throw new UnauthorizedException();
-            }
-            const user=await this.UserService.findOne({id:data['id']});
-
-            const{password, ...result}=user;
-
-            return result
-        }
-        catch(e){
-            throw new UnauthorizedException();
-        }
-      
-
-
-    }
 }
 

@@ -6,9 +6,7 @@ import {from,Observable, switchMap, map } from 'rxjs';
 import {userInterface} from '../user/modles/user.interface';
 import{createUserDto } from '../user/modles/dto/create.dto'
 import{AuthService} from '../services/auth/auth.service';
-import {loginUserDto } from '../user/modles/dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-
 
 
 
@@ -42,7 +40,6 @@ export class UserService {
                             );
                         })
                     )
-                    
                 }
                 else{
                     throw new HttpException('email already exist',HttpStatus.CONFLICT);
@@ -50,8 +47,8 @@ export class UserService {
             })
         )
  }
-
     findAllUsers():Observable<userInterface[]>{
+       
     return from(this.userRepository.find());
     } 
 
@@ -68,8 +65,7 @@ async findOne(condition:any):Promise<userInterface>{
  }
 
  private mailExist(email:string):Observable<boolean>{
-
-    return from(this.userRepository.findOne({email})).pipe(
+ return from(this.userRepository.findOne({email})).pipe(
         map((user:userInterface)=>{
 
             if(user){
