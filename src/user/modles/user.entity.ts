@@ -1,46 +1,47 @@
-import { Entity,PrimaryGeneratedColumn,Column,BaseEntity,BeforeInsert} from "typeorm";
-import {IsNotEmpty,IsEmail,Length} from 'class-validator';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, BeforeInsert } from "typeorm";
+import { Role} from '../../auth/moddles/role.enum' 
+import { IsNotEmpty, IsEmail, Length } from 'class-validator';
 
 
-@Entity('user') 
-export class userEntity extends BaseEntity{
+@Entity('user')
+export class userEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
 
     @IsNotEmpty({
-        message:'name is required'
+        message: 'name is required'
     })
-    @Column({default:null})
-    names:string;
-   
+    @Column({ default: null })
+    names: string;
+
     @IsNotEmpty({
-        message:'username is required'
+        message: 'username is required'
     })
-    @Column({default:null})
-    username:string;
+    @Column({ default: null })
+    username: string;
 
 
     @IsNotEmpty({
-        message:'email is required'
+        message: 'email is required'
     })
     @IsEmail()
-    @Column({unique:true,default:null})
-    email:string;
+    @Column({ unique: true, default: null })
+    email: string;
 
     @IsNotEmpty({
-        message:'password is required'
+        message: 'password is required'
     })
-    @Length(5,16)
-    @Column({default:null})
-    password:string;
+    @Length(5, 16)
+    @Column({ default: null })
+    password: string;
 
-    @Column({default:'student'})
-    role:string;
+    @Column({ type:'enum',enum:Role,default: null })
+    role: string;
 
     @BeforeInsert()
-    emailToLowerCase(){
-    this.email=this.email.toLowerCase();
+    emailToLowerCase() {
+        this.email = this.email.toLowerCase();
 
-   }
+    }
 }
 

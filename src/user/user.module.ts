@@ -8,15 +8,20 @@ import { JwtModule } from '@nestjs/jwt';
 
 
 
+
 @Module({
 imports:[TypeOrmModule.forFeature([userEntity]),
-JwtModule.register({
-    secret:'secret',
+JwtModule.registerAsync({
+    useFactory :()=>({
+    secret:'jwtsecret',
     signOptions:{expiresIn:'1d'},
+    })
+
 }),
 AuthModule,
 ],
 providers: [UserService],
 controllers: [UserController],
+exports:[UserService]
 })
 export class UserModule {}

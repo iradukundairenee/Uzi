@@ -1,34 +1,89 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,Req,UnauthorizedException } from '@nestjs/common';
 import { TermsService } from './terms.service';
 import { CreateTermDto } from './dto/create-term.dto';
 import { UpdateTermDto } from './dto/update-term.dto';
+import {Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('terms')
 export class TermsController {
-  constructor(private readonly termsService: TermsService) {}
+  constructor(private readonly termsService: TermsService,
+    private jwtService: JwtService
+    ) {}
 
   @Post()
-  create(@Body() createTermDto: CreateTermDto) {
+  async create(@Req() request: Request,@Body() createTermDto: CreateTermDto) {
+    try {
+      const cookie = request.cookies['jwt'];
+      const data = await this.jwtService.verify(cookie);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.termsService.create(createTermDto);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
+  
 
   @Get()
-  findAll() {
+  async findAll(@Req() request: Request) {
+    try {
+      const cookie = request.cookies['jwt'];
+      const data = await this.jwtService.verify(cookie);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.termsService.findAll();
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Req() request: Request,@Param('id') id: string) {
+    try {
+      const cookie = request.cookies['jwt'];
+      const data = await this.jwtService.verify(cookie);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.termsService.findOne(+id);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTermDto: UpdateTermDto) {
+ async  update(@Req() request: Request,@Param('id') id: string, @Body() updateTermDto: UpdateTermDto) {
+    try {
+      const cookie = request.cookies['jwt'];
+      const data = await this.jwtService.verify(cookie);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.termsService.update(+id, updateTermDto);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Req() request: Request,@Param('id') id: string) {
+    try {
+      const cookie = request.cookies['jwt'];
+      const data = await this.jwtService.verify(cookie);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.termsService.remove(+id);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 }

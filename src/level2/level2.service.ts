@@ -17,15 +17,16 @@ export class Level2Service {
     return await Level2.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} level2`;
+  async findOne(id: number) {
+    return await Level2.findOne(id);
   }
 
-  update(id: number, updateLevel2Dto: UpdateLevel2Dto) {
-    return `This action updates a #${id} level2`;
+  async update(id: number, updateLevel2Dto: UpdateLevel2Dto) {
+
+    return await  Level2.update(id, updateLevel2Dto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} level2`;
+  async remove(id: number) {
+    return await Level2.delete(id);
   }
 }

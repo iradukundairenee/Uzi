@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UnauthorizedException,Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UnauthorizedException, } from '@nestjs/common';
 import { Level1Service } from './level1.service';
 import { CreateLevel1Dto } from './dto/create-level1.dto';
 import { UpdateLevel1Dto } from './dto/update-level1.dto';
-import {Response, Request } from 'express';
+import {Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 @Controller('level1')
 export class Level1Controller {
@@ -11,25 +11,33 @@ export class Level1Controller {
   ) { }
 
   @Post()
-  async create(@Body() createLevel1Dto: CreateLevel1Dto) {
+  async create(@Req() request: Request,@Body() createLevel1Dto: CreateLevel1Dto) {
     try {
-     
+      const bearer = await  request.headers['authorization'];
+      const token = await bearer.split(' ')[1];
+      const data = await this.jwtService.verify(token);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
       return this.level1Service.create(createLevel1Dto);
     }
     catch (e) {
-      return e.message;
+      throw new UnauthorizedException();
     }
   }
 
   @Get()
   async findAll(@Req() request: Request) {
     try {
-      const cookie = request.cookies['jwt'];
-      const data = await this.jwtService.verify(cookie);
+      const bearer = await  request.headers['authorization'];
+      const token = await bearer.split(' ')[1];
+      const data = await this.jwtService.verify(token);
       if (!data) {
         throw new UnauthorizedException();
       }
-      return this.level1Service.findAll();
+      else{
+    return this.level1Service.findAll();
+      }
     }
     catch (e) {
       throw new UnauthorizedException();
@@ -37,16 +45,49 @@ export class Level1Controller {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Req() request: Request,@Param('id') id: string) {
+    try {
+      const bearer = await  request.headers['authorization'];
+      const token = await bearer.split(' ')[1];
+      const data = await this.jwtService.verify(token);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.level1Service.findOne(+id);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLevel1Dto: UpdateLevel1Dto) {
+  async update(@Req() request: Request,@Param('id') id: string,@Body() updateLevel1Dto: UpdateLevel1Dto) {
+    try {
+      const bearer = await  request.headers['authorization'];
+      const token = await bearer.split(' ')[1];
+      const data = await this.jwtService.verify(token);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.level1Service.update(+id, updateLevel1Dto);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Req() request: Request,@Param('id') id: string) {
+    try {
+      const bearer = await  request.headers['authorization'];
+      const token = await bearer.split(' ')[1];
+      const data = await this.jwtService.verify(token);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
     return this.level1Service.remove(+id);
+    }
+    catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 }

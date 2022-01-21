@@ -11,7 +11,10 @@ import { Level2Module } from './level2/level2.module';
 import { TermsModule } from './terms/terms.module';
 import { CombinationsModule } from './combinations/combinations.module';
 import { SubjectsModule } from './subjects/subjects.module';
-import { TeachersModule } from './teachers/teachers.module';
+
+
+
+
 
 
 @Module({
@@ -34,13 +37,15 @@ import { TeachersModule } from './teachers/teachers.module';
     TermsModule,
     CombinationsModule,
     SubjectsModule,
-    TeachersModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    AuthService, 
-
+    // AuthService,
+    //  {
+    //   provide: APP_GUARD,
+    //   useClass: CombinationsService,
+    // },
    ],
 })
 export class AppModule {}

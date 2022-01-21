@@ -7,9 +7,12 @@ import {Level1} from './entities/level1.entity'
 
 @Module({
   imports:[TypeOrmModule.forFeature([Level1]),
-  JwtModule.register({
-    secret:'secret',
+  JwtModule.registerAsync({
+    useFactory :()=>({
+    secret:'jwtsecret',
     signOptions:{expiresIn:'1d'},
+    })
+
 }),
 ],
   controllers: [Level1Controller],

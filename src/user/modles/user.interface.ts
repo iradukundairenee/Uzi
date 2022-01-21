@@ -3,5 +3,6 @@ export interface userInterface {
     names?:string;
     username?:string;
     email?:string;
-    password?:string;   
+    password?:string;  
+    role?:string;
 }

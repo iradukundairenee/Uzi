@@ -16,15 +16,18 @@ export class Level1Service {
     return await Level1.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} level1`;
+  async findOne(id: number) {
+    return await Level1.findOne(id);
   }
 
-  update(id: number, updateLevel1Dto: UpdateLevel1Dto) {
-    return `This action updates a #${id} level1`;
+  
+
+  async update(id: number, updateLevel1Dto: UpdateLevel1Dto) {
+
+    return await  Level1.update(id, updateLevel1Dto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} level1`;
+  async remove(id: number) {
+    return await Level1.delete(id);
   }
 }
