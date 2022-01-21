@@ -4,15 +4,21 @@ import { Level1Controller } from './level1.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {Level1} from './entities/level1.entity'
+import {RolesGuard} from '../../src/auth/guards/roles.guard';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Level1]),
-  JwtModule.register({
-    secret:'secret',
+  JwtModule.registerAsync({
+    useFactory :()=>({
+    secret:'jwtsecret',
     signOptions:{expiresIn:'1d'},
+    })
+
 }),
 ],
   controllers: [Level1Controller],
-  providers: [Level1Service]
+  providers: [Level1Service,
+   
+  ]
 })
 export class Level1Module {}

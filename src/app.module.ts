@@ -7,11 +7,20 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './services/auth/auth.service';
 import { Level1Module } from './level1/level1.module';
-import { Level2Module } from './level2/level2.module';
 import { TermsModule } from './terms/terms.module';
 import { CombinationsModule } from './combinations/combinations.module';
 import { SubjectsModule } from './subjects/subjects.module';
-import { TeachersModule } from './teachers/teachers.module';
+import { TeacherSubjectModule } from './teacher-subject/teacher-subject.module';
+import { WorkspacesModule } from './workspaces/workspaces.module';
+import { WorkspaceQuizQuestionsModule } from './workspace-quiz-questions/workspace-quiz-questions.module';
+import { WorkspaceQuizQuestionOptionsModule } from './workspace-quiz-question-options/workspace-quiz-question-options.module';
+import { WorkspaceStudentResultsModule } from './workspace-student-results/workspace-student-results.module';
+import { Level2Module } from './level2/level2.module';
+
+
+
+
+
 
 
 @Module({
@@ -30,17 +39,19 @@ import { TeachersModule } from './teachers/teachers.module';
     UserModule,
     AuthModule,
     Level1Module,
-    Level2Module,
     TermsModule,
     CombinationsModule,
     SubjectsModule,
-    TeachersModule,
+    TeacherSubjectModule,
+    WorkspacesModule,
+    WorkspaceQuizQuestionsModule,
+    WorkspaceQuizQuestionOptionsModule,
+    WorkspaceStudentResultsModule,
+    Level2Module
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    AuthService, 
-
    ],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLevel1Dto } from './dto/create-level1.dto';
 import { UpdateLevel1Dto } from './dto/update-level1.dto';
-import { Level1 } from './entities/level1.entity'
+import { Level1 } from './entities/level1.entity';
 
 @Injectable()
 export class Level1Service {
@@ -16,15 +16,18 @@ export class Level1Service {
     return await Level1.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} level1`;
+  async findOne(id: number) {
+    return await Level1.findOne(id);
   }
 
-  update(id: number, updateLevel1Dto: UpdateLevel1Dto) {
-    return `This action updates a #${id} level1`;
+  
+
+  async update(id: number, updateLevel1Dto: UpdateLevel1Dto) {
+
+    return await  Level1.update(id, updateLevel1Dto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} level1`;
+  async remove(id: number) {
+    return await Level1.delete(id);
   }
 }

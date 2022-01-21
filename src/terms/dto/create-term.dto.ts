@@ -1,4 +1,4 @@
-import {IsNotEmpty,IsString,IsInt,IsDate} from 'class-validator';
+import {IsNotEmpty,IsString,IsInt} from 'class-validator';
 export class CreateTermDto {
     @IsNotEmpty()
     @IsString()
@@ -6,9 +6,7 @@ export class CreateTermDto {
 
 
     @IsNotEmpty()
-    @IsInt()
+    // @IsInt()
     level1Id:string;
 
-    // @IsString()
-    // created:Date;
 }

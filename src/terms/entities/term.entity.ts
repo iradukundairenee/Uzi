@@ -1,5 +1,7 @@
 
-import { Entity,PrimaryGeneratedColumn,Column,BaseEntity} from "typeorm";
+import { Entity,PrimaryGeneratedColumn,Column,BaseEntity,OneToMany} from "typeorm";
+import {Level1} from '../../level1/entities/level1.entity';
+
 
 @Entity('term')
 export class Term  extends BaseEntity {
@@ -8,16 +10,8 @@ export class Term  extends BaseEntity {
 
     @Column({default:null})
     name:string;
-     
+    
     @Column({default:null})
     level1Id:string;
-    
-    
-    // @Column({default: null, type: 'date'}) 
-    // created:Date; 
-
-    // @Column({default: null, type: 'date'}) 
-    // updated:Date; 
-
-   
+ 
 }
