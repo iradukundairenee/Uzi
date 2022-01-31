@@ -34,8 +34,8 @@ export class TermsController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Req() request: Request) {
-    
-      return this.termsService.findAll();
+
+    return this.termsService.findAll();
 
   }
 
